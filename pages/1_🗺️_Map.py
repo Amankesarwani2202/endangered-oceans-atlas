@@ -51,7 +51,7 @@ for col, num, label, color in [
     (c4, len(filtered[filtered.status == "Vulnerable"]), "Vulnerable", "#1a6b3a"),
 ]:
     col.markdown(
-        f'<div style="background:{color};color:white;border-radius:10px;padding:.7rem;text-align:center;">'
+          f'<div style="background:{color};color:white;border-radius:10px;padding:.7rem;text-align:center;">'
         f'<div style="font-size:1.8rem;font-weight:700">{num}</div>'
         f'<div style="font-size:.7rem;opacity:.85;text-transform:uppercase;letter-spacing:.08em">{label}</div>'
         f'</div>',
@@ -106,7 +106,7 @@ if show_clusters and not filtered.empty:
 Fullscreen(position="topleft", title="Full Screen", title_cancel="Exit Full Screen", force_separate_button=True).add_to(ocean_map)
 folium.LayerControl(collapsed=False).add_to(ocean_map)
 
-# ── Layout ────────────────────────────────────────────────────
+# ── Layout ───────────────────────────────────────────────────
 map_col, table_col = st.columns([3, 2], gap="medium")
 
 with map_col:
@@ -131,7 +131,7 @@ with table_col:
                 st.markdown(f"**Conservation:** {row.conservation_action}")
                 st.info(f"🤝 {row.how_you_can_help}")
 
-# ── Legend ────────────────────────────────────────────────────
+# ── Legend ───────────────────────────────────────────────────
 st.markdown("---")
 l1, l2, l3, _ = st.columns([1, 1, 1, 3])
 l1.markdown("🔴 **Critically Endangered**")

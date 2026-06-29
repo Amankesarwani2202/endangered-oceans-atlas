@@ -65,7 +65,7 @@ st.markdown("""
 
 st.markdown(f"**{len(filtered)} species** match your filters.")
 
-# ── Content ───────────────────────────────────────────────────
+# ── Content ─────────────────────────────────────────────────
 if view_mode == "Table":
     display_cols = ["emoji","species_name","status","ocean","population_estimate","primary_threat"]
     rename_map   = {"emoji":"","species_name":"Species","status":"Status","ocean":"Ocean",

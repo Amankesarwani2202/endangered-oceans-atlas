@@ -141,7 +141,7 @@ cols = st.columns(1)
 for icon, text in insights:
     st.markdown(
         f'<div style="background:#f0f8ff;border-left:4px solid #1a6fa5;border-radius:0 10px 10px 0;'
-        f'padding:.75rem 1rem;margin-bottom:.6rem;font-size:.9rem;color:#1a3a5c">'
+        f'padding:.75rem 1rem;margin-bottom:.6rem;font-size:.9rem;color:#1a3a5c'>
         f'{icon} {text}</div>',
         unsafe_allow_html=True,
     )
@@ -152,4 +152,3 @@ with st.expander("📄 View Full Dataset"):
     display = marine_species[["emoji","species_name","status","ocean","population_estimate","primary_threat","conservation_action"]].copy()
     display.columns = ["","Species","Status","Ocean","Population","Threat","Conservation"]
     st.dataframe(display.reset_index(drop=True), use_container_width=True, hide_index=True)
-    
