@@ -133,22 +133,27 @@ with c4:
 st.markdown("---")
 st.markdown("#### Key Insights")
 
+total = len(marine_species)
+critical = int((marine_species.status == "Critically Endangered").sum())
+critical_pct = 100 * critical / total if total else 0
+largest_region_count = int(ocean_counts.max()) if not ocean_counts.empty else 0
+largest_regions = ", ".join(ocean_counts[ocean_counts == largest_region_count].index)
+leading_count = int(threat_series.max()) if not threat_series.empty else 0
+leading_threats = ", ".join(threat_series[threat_series == leading_count].index)
+climate_count = threat_counts.get("Climate Change", 0)
+shark_count = int(marine_species.species_name.str.contains("shark", case=False, regex=False).sum())
+
 insights = [
-    ("🔴", "6 of 15 tracked species are **Critically Endangered** — that's 40% of our dataset."),
-    ("🌊", "The **Indian Ocean** and **Bay of Bengal** host the most at-risk species in this dataset."),
-    ("🎣", "**Overfishing and bycatch** are the single most pervasive threat, affecting 9 of 15 species."),
-    ("🌡️", "**Climate change** is an emerging multiplier threat, compounding risks for coral, turtles, and whales."),
-    ("🦈", "Sharks are heavily over-represented — 4 of 15 species are sharks, all facing extinction-level pressure."),
+    ("🔴", f"**{critical} of {total} tracked species** are Critically Endangered — {critical_pct:.0f}% of this atlas."),
+    ("🌊", f"**Most represented ocean / region:** {largest_regions or 'None'} ({largest_region_count} tracked species per region)."),
+    ("🎣", f"**Most recorded threat category:** {leading_threats or 'None'} ({leading_count} of {total} species)."),
+    ("🌡️", f"**Climate-related threats** are recorded for {climate_count} of {total} tracked species."),
+    ("🦈", f"**{shark_count} of {total} profiles** are labelled as sharks in this atlas."),
 ]
 
-cols = st.columns(1)
 for icon, text in insights:
-    st.markdown(
-        f'<div style="background:#f0f8ff;border-left:4px solid #1a6fa5;border-radius:0 10px 10px 0;'
-        f'padding:.75rem 1rem;margin-bottom:.6rem;font-size:.9rem;color:#1a3a5c'>
-        f'{icon} {text}</div>',
-        unsafe_allow_html=True,
-    )
+    st.info(f"{icon} {text}")
+st.caption("Counts describe the species included in this atlas, not all marine life. Threat categories use keyword matching and may overlap.")
 
 # ── Full data table ───────────────────────────────────────────
 st.markdown("---")
