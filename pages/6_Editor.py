@@ -34,6 +34,11 @@ if time.time() > st.session_state.get("editor_expires", 0) or st.button("Sign ou
     st.session_state.editor_authenticated = False
     st.rerun()
 st.caption("Review submissions before publication. Access expires after one hour. Roles and affiliations are self-reported.")
+section = st.radio("Editor section", ["Contributions", "Manage species"], horizontal=True)
+if section == "Manage species":
+    from species_editor import render_species_editor
+    render_species_editor(config)
+    st.stop()
 month = st.selectbox("Submission month", sorted(set(read_content("questions.json")) | {month_now()}, reverse=True))
 try:
     store = GitHubStore(config)

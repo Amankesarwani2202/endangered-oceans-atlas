@@ -1,3 +1,4 @@
+from html import escape
 import streamlit as st
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
@@ -53,7 +54,7 @@ filtered = marine_species[
     marine_species.ocean.isin(selected_oceans)
 ]
 if search:
-    filtered = filtered[filtered.species_name.str.contains(search, case=False)]
+    filtered = filtered[filtered.species_name.str.contains(search, case=False, regex=False)]
 
 # ── Header ────────────────────────────────────────────────────
 st.markdown("""
@@ -84,23 +85,27 @@ else:
             st.markdown(f"""
             <div class="sp-card">
               <div style="display:flex;align-items:center;gap:.7rem;margin-bottom:.5rem;">
-                <span style="font-size:2rem;">{row.emoji}</span>
+                <span style="font-size:2rem;">{escape(str(row.emoji))}</span>
                 <div>
-                  <div class="sp-name">{row.species_name}</div>
-                  <div class="sp-ocean">{row.ocean}</div>
+                  <div class="sp-name">{escape(str(row.species_name))}</div>
+                  <div class="sp-ocean">{escape(str(row.ocean))}</div>
                 </div>
                 <span style="margin-left:auto;background:{bg};color:{fg};padding:2px 10px;
                              border-radius:999px;font-size:.72rem;font-weight:600;white-space:nowrap;">
-                  {row.status}
+                  {escape(str(row.status))}
                 </span>
               </div>
-              <div class="sp-pop">👥 <b>Population:</b> {row.population_estimate}</div>
-              <div class="sp-threat">⚠️ <b>Threat:</b> {row.primary_threat}</div>
-              <div class="sp-threat" style="color:#1a6fa5;">🛡️ <b>Conservation:</b> {row.conservation_action}</div>
-              <div class="sp-help">🤝 {row.how_you_can_help}</div>
-              <div class="sp-fact">💡 {row.fun_fact}</div>
+              <div class="sp-pop">👥 <b>Population:</b> {escape(str(row.population_estimate))}</div>
+              <div class="sp-threat">⚠️ <b>Threat:</b> {escape(str(row.primary_threat))}</div>
+              <div class="sp-threat" style="color:#1a6fa5;">🛡️ <b>Conservation:</b> {escape(str(row.conservation_action))}</div>
+              <div class="sp-help">🤝 {escape(str(row.how_you_can_help))}</div>
+              <div class="sp-fact">💡 {escape(str(row.fun_fact))}</div>
             </div>
             """, unsafe_allow_html=True)
+            source = row.get("source_url")
+            if isinstance(source, str) and source:
+                st.link_button("View species source ↗", source)
+                st.caption(f"Source reviewed: {row.get('last_reviewed', '')}")
 
 if filtered.empty:
     st.info("No species match your current filters. Try broadening your search.")
