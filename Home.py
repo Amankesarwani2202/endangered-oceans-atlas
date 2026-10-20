@@ -1,4 +1,6 @@
 import streamlit as st
+from data import load_data
+
 
 st.set_page_config(
     page_title="🌊 Endangered Oceans Atlas",
@@ -6,6 +8,8 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded",
 )
+
+species = load_data()
 
 st.markdown("""
 <style>
@@ -170,15 +174,13 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ── Stat strip ────────────────────────────────────────────────
-st.markdown("""
-<div class="stat-strip">
-  <div class="stat-cell"><div class="stat-num">15</div><div class="stat-lbl">Species Tracked</div></div>
-  <div class="stat-cell"><div class="stat-num">6</div><div class="stat-lbl">Critically Endangered</div></div>
-  <div class="stat-cell"><div class="stat-num">7</div><div class="stat-lbl">Endangered</div></div>
-  <div class="stat-cell"><div class="stat-num">2</div><div class="stat-lbl">Vulnerable</div></div>
-  <div class="stat-cell"><div class="stat-num">5</div><div class="stat-lbl">Ocean Regions</div></div>
-</div>
-""", unsafe_allow_html=True)
+counts = species.status.value_counts()
+cols = st.columns(5)
+for col, label, value in zip(cols,
+    ["Species tracked", "Critically endangered", "Endangered", "Vulnerable", "Ocean regions"],
+    [len(species), counts.get("Critically Endangered", 0), counts.get("Endangered", 0),
+     counts.get("Vulnerable", 0), species.ocean.nunique()]):
+    col.metric(label, int(value))
 
 # ── Navigation cards ──────────────────────────────────────────
 st.markdown("### Explore the Atlas")
@@ -201,7 +203,7 @@ with col2:
     <div class="nav-card">
       <div class="nav-icon">📋</div>
       <div class="nav-title">Species Directory</div>
-      <div class="nav-desc">Browse all 15 tracked species, filter by threat status or ocean region, and read detailed conservation profiles.</div>
+      <div class="nav-desc">Browse the growing collection of tracked species, filter by threat status or ocean region, and read detailed conservation profiles.</div>
     </div>
     """, unsafe_allow_html=True)
     if st.button("Browse Species →", key="dir_btn", use_container_width=True):
@@ -248,3 +250,10 @@ st.markdown("""
   Data is illustrative and for educational purposes.
 </div>
 """, unsafe_allow_html=True)
+
+st.markdown("### Join the ocean community")
+a, b = st.columns(2)
+with a:
+    st.page_link("pages/4_Contributors.py", label="Contribute to this month's question", icon="💬")
+with b:
+    st.page_link("pages/5_Newsletters.py", label="Read our monthly newsletters", icon="📰")
