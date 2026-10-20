@@ -4,7 +4,7 @@ import unittest
 from pathlib import Path
 from unittest.mock import Mock, patch
 from datetime import date
-from streamlit.testing.v1 import AppTest
+from app_support import atlas_app
 from community import StorageError
 from species_catalog import merge_species, validate_species, publish_species, read_catalog
 
@@ -63,7 +63,7 @@ class SpeciesTests(unittest.TestCase):
             return response(404, {})
         request.side_effect = api
         config = {"repository": "a/b", "token": "test", "editor_password": "test-password"}
-        editor = AppTest.from_file(str(ROOT / "pages/6_Editor.py"))
+        editor = atlas_app(str(ROOT / "pages/6_Editor.py"))
         editor.secrets["community"] = config
         editor.run()
         editor.text_input[0].set_value("test-password")
@@ -85,7 +85,7 @@ class SpeciesTests(unittest.TestCase):
         # Separate page sessions read persisted content; no local state or cache needed.
         for page in ["Home.py", "pages/2_📋_Species.py", "pages/3_📊_Analysis.py", "pages/1_🗺️_Map.py"]:
             with self.subTest(page=page):
-                app = AppTest.from_file(str(ROOT / page))
+                app = atlas_app(str(ROOT / page))
                 app.secrets["community"] = config
                 app.run(timeout=30)
                 self.assertEqual(list(app.exception), [])
@@ -108,7 +108,7 @@ class SpeciesTests(unittest.TestCase):
     def test_unavailable_storage_warns_and_keeps_atlas(self, request):
         import requests
         request.side_effect = requests.ConnectionError()
-        app = AppTest.from_file(str(ROOT / "Home.py"))
+        app = atlas_app(str(ROOT / "Home.py"))
         app.secrets["community"] = {"repository": "a/b", "token": "test"}
         app.run()
         self.assertEqual(list(app.exception), [])

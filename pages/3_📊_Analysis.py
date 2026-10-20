@@ -4,7 +4,11 @@ import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 from data import load_data, COMMON_CSS
 
+from navigation import render_sidebar
+
 st.set_page_config(page_title="Analysis · Endangered Oceans Atlas", page_icon="📊", layout="wide")
+
+render_sidebar()
 st.markdown(COMMON_CSS, unsafe_allow_html=True)
 
 marine_species = load_data()

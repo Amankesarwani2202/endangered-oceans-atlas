@@ -5,7 +5,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 from unittest.mock import Mock, patch
 from community import GitHubStore, StorageError, make_submission, export_answers
-from streamlit.testing.v1 import AppTest
+from app_support import atlas_app
 
 
 def response(status, data):
@@ -53,7 +53,7 @@ class CommunityTests(unittest.TestCase):
     def test_pages_without_secrets(self):
         for path in ["Home.py", "pages/4_Contributors.py", "pages/5_Newsletters.py", "pages/6_Editor.py"]:
             with self.subTest(path=path):
-                app = AppTest.from_file(str(ROOT / path)).run(timeout=20)
+                app = atlas_app(str(ROOT / path)).run(timeout=20)
                 self.assertEqual(list(app.exception), [])
 
     @patch("community.requests.request")
@@ -65,7 +65,7 @@ class CommunityTests(unittest.TestCase):
                 return response(200, {"private": True})
             return response(404, {})
         request.side_effect = api
-        app = AppTest.from_file(str(ROOT / "pages/4_Contributors.py"))
+        app = atlas_app(str(ROOT / "pages/4_Contributors.py"))
         app.secrets["community"] = {"repository": "a/b", "token": "test"}
         app.run()
         app.text_input[0].set_value("Aman")
@@ -93,7 +93,7 @@ class CommunityTests(unittest.TestCase):
             return response(200, {"content": encoded(record), "sha": "original"})
         request.side_effect = api
         config = {"repository": "a/b", "token": "test", "editor_password": "test-password"}
-        app = AppTest.from_file(str(ROOT / "pages/6_Editor.py"))
+        app = atlas_app(str(ROOT / "pages/6_Editor.py"))
         app.secrets["community"] = config
         app.run()
         app.text_input[0].set_value("test-password")
@@ -105,7 +105,7 @@ class CommunityTests(unittest.TestCase):
         payload = json.loads(base64.b64decode(writes[-1].kwargs["json"]["content"]))
         self.assertEqual(payload["status"], "approved")
         record["status"] = "approved"
-        feed = AppTest.from_file(str(ROOT / "pages/4_Contributors.py"))
+        feed = atlas_app(str(ROOT / "pages/4_Contributors.py"))
         feed.secrets["community"] = config
         feed.run()
         self.assertEqual(list(feed.exception), [])
