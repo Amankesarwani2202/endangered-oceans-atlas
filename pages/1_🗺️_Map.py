@@ -1,3 +1,4 @@
+from html import escape
 import streamlit as st
 import folium
 from folium.plugins import MarkerCluster, HeatMap, Fullscreen
@@ -78,25 +79,25 @@ if show_clusters and not filtered.empty:
         fg = STATUS_HEX_FG.get(row.status, "#856404")
         popup_html = f"""
         <div style="width:280px;font-family:'Segoe UI',sans-serif;padding:4px;">
-            <h3 style="color:#0a3d62;margin:0 0 6px 0;">{row.emoji} {row.species_name}</h3>
+            <h3 style="color:#0a3d62;margin:0 0 6px 0;">{escape(str(row.emoji))} {escape(str(row.species_name))}</h3>
             <hr style="margin:4px 0;border-color:#cce0f5;">
             <p style="margin:4px 0;"><b>Status:</b>
-                <span style="background:{bg};color:{fg};padding:1px 8px;border-radius:999px;font-size:.8em;font-weight:600;">{row.status}</span></p>
-            <p style="margin:4px 0;"><b>Ocean:</b> {row.ocean}</p>
-            <p style="margin:4px 0;"><b>Population:</b> {row.population_estimate}</p>
-            <p style="margin:4px 0;"><b>Primary Threat:</b> {row.primary_threat}</p>
-            <p style="margin:4px 0;"><b>Conservation:</b> {row.conservation_action}</p>
+                <span style="background:{bg};color:{fg};padding:1px 8px;border-radius:999px;font-size:.8em;font-weight:600;">{escape(str(row.status))}</span></p>
+            <p style="margin:4px 0;"><b>Ocean:</b> {escape(str(row.ocean))}</p>
+            <p style="margin:4px 0;"><b>Population:</b> {escape(str(row.population_estimate))}</p>
+            <p style="margin:4px 0;"><b>Primary Threat:</b> {escape(str(row.primary_threat))}</p>
+            <p style="margin:4px 0;"><b>Conservation:</b> {escape(str(row.conservation_action))}</p>
             <hr style="margin:6px 0;border-color:#cce0f5;">
             <p style="margin:2px 0;color:#0a3d62;font-weight:600;font-size:.85em;">💡 Fun Fact</p>
-            <p style="margin:2px 0;font-size:.82em;color:#444;font-style:italic;">{row.fun_fact}</p>
+            <p style="margin:2px 0;font-size:.82em;color:#444;font-style:italic;">{escape(str(row.fun_fact))}</p>
             <hr style="margin:6px 0;border-color:#cce0f5;">
             <p style="margin:2px 0;color:#0a3d62;font-weight:600;font-size:.85em;">🤝 How You Can Help</p>
-            <p style="margin:2px 0;font-size:.82em;color:#333;">{row.how_you_can_help}</p>
+            <p style="margin:2px 0;font-size:.82em;color:#333;">{escape(str(row.how_you_can_help))}</p>
         </div>"""
         folium.Marker(
             location=[row.latitude, row.longitude],
             popup=folium.Popup(popup_html, max_width=340),
-            tooltip=f"{row.emoji} {row.species_name} — {row.status}",
+            tooltip=f"{escape(str(row.emoji))} {escape(str(row.species_name))} — {escape(str(row.status))}",
             icon=folium.Icon(
                 color=STATUS_COLORS.get(row.status, "blue"),
                 icon=STATUS_ICONS.get(row.status, "info-sign"),
@@ -123,7 +124,7 @@ with table_col:
             with st.expander(f"{row.emoji}  {row.species_name}"):
                 st.markdown(
                     f'<span style="background:{bg};color:{fg};padding:2px 10px;border-radius:999px;font-size:.75rem;font-weight:600">'
-                    f'{row.status}</span>&nbsp;<small style="color:#666">{row.ocean}</small>',
+                    f'{escape(str(row.status))}</span>&nbsp;<small style="color:#666">{escape(str(row.ocean))}</small>',
                     unsafe_allow_html=True,
                 )
                 st.markdown(f"**Population:** {row.population_estimate}")

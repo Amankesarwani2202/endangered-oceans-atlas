@@ -22,9 +22,18 @@ div[data-testid="stSidebar"] { background:#f5f9ff; }
 """
 
 
-@st.cache_data
 def load_data() -> pd.DataFrame:
-    from pathlib import Path
-    import json
-    records = json.loads((Path(__file__).parent / "content/species.json").read_text())
-    return pd.DataFrame(records)
+    """Read published additions on each page visit so editor updates are immediate."""
+    from community import GitHubStore, StorageError
+    from species_catalog import read_catalog, merge_species
+    try:
+        config = dict(st.secrets.get("community", {}))
+    except FileNotFoundError:
+        config = {}
+    additions = []
+    if config.get("repository") and config.get("token"):
+        try:
+            additions, _ = read_catalog(GitHubStore(config))
+        except StorageError as exc:
+            st.warning(f"Published species updates are temporarily unavailable. Showing the original atlas. {exc}")
+    return pd.DataFrame(merge_species(additions))

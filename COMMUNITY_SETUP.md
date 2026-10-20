@@ -36,9 +36,15 @@ Alternatively commit a PDF in `content/newsletters/` and add `"pdf": "ocean-voic
 
 ## Add animals every few weeks
 
-`content/species.json` now contains one object per species, replacing fragile parallel Python lists. Copy an existing object and update every field. The map, directory and analysis use this dataset; homepage counts and regions are calculated automatically. Existing entries remain illustrative educational data.
+The scholar can now sign in to **Editor → Manage species**, complete **New animal profile**, check the research confirmation and click **Publish species**. This can be done weekly or every few weeks; there is no fixed limit or automatic publication schedule.
 
-Verify each new species' status, population, region and conservation facts against dated authoritative sources. Optional fields such as `source_url` and `last_reviewed` can be retained in the record, but are not currently displayed. Coordinates represent a sample location, not a species' entire range. No new unverified animal records were added in this change. Adding profiles is an editorial task, not automatic generation.
+Required fields include species name, emoji, supported threat status, ocean/region, sample coordinates, population estimate, threats, conservation actions, how visitors can help, fun fact, an HTTPS source link and a source review date. If population is uncertain, say Unknown rather than inventing a number. The source link and review date appear on directory cards. Verify facts against dated authoritative sources; the app checks field formats but cannot verify scientific accuracy.
+
+Published additions are saved to `atlas/species.json` in the existing **private data repository**, using the same token and Secrets. The original 15 profiles stay in the code repository's `content/species.json`; the app combines both sets. No extra permissions, code edits, redeployment or Streamlit reboot are needed for each new species. Home, Map, Species and Analysis read the additions when opened or refreshed. A browser page already open must be refreshed.
+
+The form lists existing species and rejects duplicate names, invalid coordinates, missing fields and invalid source links. Writes use the catalogue SHA the editor originally loaded. If another editor publishes first, use **Reload catalogue** and try again; stale writes cannot overwrite another publication. The form currently adds profiles, rather than editing or deleting existing entries. Do not manually add the same species to both datasets. Keep regular backups through git history.
+
+If storage is unavailable or the remote catalogue is invalid, public pages show a warning and the bundled original atlas; additions return when access is restored. Publishing is blocked while the catalogue cannot be loaded safely. The app reads one catalogue file per page visit and does not cache it, so newly published animals become visible on the next visit. This uses GitHub API quota; migrate storage if traffic grows.
 
 ## Operational limits
 
