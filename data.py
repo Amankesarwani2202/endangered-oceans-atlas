@@ -1,5 +1,6 @@
 import pandas as pd
 import streamlit as st
+from ui import POLISH_CSS
 
 STATUS_COLORS    = {"Critically Endangered": "red", "Endangered": "orange", "Vulnerable": "green"}
 STATUS_TAG_CLASS = {"Critically Endangered": "tag-cr", "Endangered": "tag-en", "Vulnerable": "tag-vu"}
@@ -20,6 +21,8 @@ html, body, [class*="css"] { font-family: "Inter", sans-serif; }
 div[data-testid="stSidebar"] { background:#f5f9ff; }
 </style>
 """
+
+COMMON_CSS += POLISH_CSS
 
 
 def load_data() -> pd.DataFrame:
