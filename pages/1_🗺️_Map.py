@@ -31,7 +31,7 @@ with st.sidebar:
     show_clusters = st.checkbox("Species Markers", value=True)
     show_heatmap  = st.checkbox("Biodiversity Heatmap", value=True)
     st.markdown("---")
-    map_tile = st.selectbox("Base Map", ["CartoDB positron", "OpenStreetMap", "CartoDB dark_matter"])
+    st.caption("Base map: OpenStreetMap")
     st.caption("Data is illustrative. Sources: IUCN Red List, WWF, NOAA.")
 
 filtered = marine_species[
@@ -62,7 +62,7 @@ for col, num, label, color in [
 st.markdown("<br>", unsafe_allow_html=True)
 
 # ── Build map ─────────────────────────────────────────────────
-ocean_map = folium.Map(location=[20, 0], zoom_start=2, tiles=map_tile)
+ocean_map = folium.Map(location=[20, 0], zoom_start=2, tiles="OpenStreetMap")
 
 if show_heatmap and not filtered.empty:
     HeatMap(
