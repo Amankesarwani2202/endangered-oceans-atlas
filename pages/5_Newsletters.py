@@ -4,11 +4,11 @@ import streamlit as st
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from community import read_content, safe_url
 from data import COMMON_CSS
-from navigation import render_sidebar
+from navigation import render_navigation
 
 st.set_page_config(page_title="Newsletters · Oceans Atlas", page_icon="📰", layout="wide")
 
-render_sidebar()
+render_navigation()
 st.markdown(COMMON_CSS, unsafe_allow_html=True)
 st.title("📰 Ocean voices newsletter")
 st.write("Monthly perspectives from our contributors, collected and designed by our editorial team in Canva.")
