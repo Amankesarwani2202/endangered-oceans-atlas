@@ -4,8 +4,10 @@ import hmac
 import time
 import streamlit as st
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from data import COMMON_CSS
 from community import GitHubStore, StorageError, month_now, read_content, export_answers
 st.set_page_config(page_title="Editor · Oceans Atlas", page_icon="🔐", layout="wide")
+st.markdown(COMMON_CSS, unsafe_allow_html=True)
 st.title("🔐 Editorial desk")
 try:
     config = dict(st.secrets.get("community", {}))

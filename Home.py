@@ -1,5 +1,5 @@
 import streamlit as st
-from data import load_data
+from data import load_data, COMMON_CSS
 
 
 st.set_page_config(
@@ -148,6 +148,8 @@ html, body, [class*="css"] {
 div[data-testid="stSidebar"] { background: #f5f9ff; }
 </style>
 """, unsafe_allow_html=True)
+
+st.markdown(COMMON_CSS, unsafe_allow_html=True)
 
 # ── Hero ──────────────────────────────────────────────────────
 st.markdown("""
