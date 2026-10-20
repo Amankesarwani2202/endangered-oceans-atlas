@@ -141,3 +141,8 @@ Data is illustrative and compiled from:
 - [IUCN Red List](https://www.iucnredlist.org/)
 - [WWF](https://www.worldwildlife.org/)
 - [NOAA Fisheries](https://www.fisheries.noaa.gov/)
+## Community contributions and growing atlas
+
+Contributors can answer the monthly question and browse approved responses. Editors can moderate and export monthly answers for Canva; published newsletters appear in their own archive. Species are now maintained in `content/species.json`, with automatic homepage counts.
+
+See [COMMUNITY_SETUP.md](COMMUNITY_SETUP.md) for private GitHub storage, Streamlit Secrets, questions, moderation, newsletter publication and species updates. Contributions stay disabled until persistent storage is configured; the existing atlas still works.

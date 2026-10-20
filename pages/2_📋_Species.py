@@ -59,7 +59,7 @@ if search:
 st.markdown("""
 <div class="species-hero">
   <h1>📋 Species Directory</h1>
-  <p>Detailed profiles of all 15 tracked marine species — their populations, threats, and what you can do.</p>
+  <p>Detailed profiles of our growing collection of marine species — their populations, threats, and what you can do.</p>
 </div>
 """, unsafe_allow_html=True)
 
