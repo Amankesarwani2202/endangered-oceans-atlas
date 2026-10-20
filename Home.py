@@ -2,16 +2,16 @@ import streamlit as st
 from data import load_data, COMMON_CSS
 
 
-from navigation import render_navigation
+from navigation import render_sidebar
 
 st.set_page_config(
     page_title="🌊 Endangered Oceans Atlas",
     page_icon="🌊",
     layout="wide",
-    initial_sidebar_state="collapsed",
+    initial_sidebar_state="expanded",
 )
 
-render_navigation()
+render_sidebar()
 
 species = load_data()
 
