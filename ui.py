@@ -10,6 +10,18 @@ POLISH_CSS = """
 [data-testid="stSidebarNav"] a { border-radius: 9px; margin: .16rem .4rem; transition: background .16s ease; }
 [data-testid="stSidebarNav"] a:hover { background: rgba(18, 107, 128, .08); }
 [data-testid="stSidebarNav"] a[aria-current="page"] { background: rgba(18, 107, 128, .12); font-weight: 600; }
+/* Shared menu: native page links retain Streamlit's active-page state. */
+[data-testid="stSidebar"] [data-testid="stPageLink"] a {
+    border-radius: 10px; padding: .65rem .8rem; min-height: 2.8rem;
+    border-left: 3px solid transparent; transition: background .16s ease;
+}
+[data-testid="stSidebar"] [data-testid="stPageLink"] a:hover {
+    background: rgba(18, 107, 128, .07);
+}
+[data-testid="stSidebar"] [data-testid="stPageLink"] a[aria-current="page"] {
+    background: rgba(18, 107, 128, .12); border-left-color: #126b80; font-weight: 600;
+}
+[data-testid="stSidebar"] [data-testid="stPageLink"] a p { margin: 0; }
 [data-testid="stMetric"] {
     border: 1px solid var(--atlas-line); border-top: 3px solid var(--atlas-accent);
     border-radius: 12px; padding: 1rem 1.1rem;

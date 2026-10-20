@@ -6,7 +6,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from community import GitHubStore, StorageError, ROLES, month_now, read_content, make_submission
 from data import COMMON_CSS
 
+from navigation import render_sidebar
+
 st.set_page_config(page_title="Contributors · Oceans Atlas", page_icon="💬", layout="wide")
+
+render_sidebar()
 st.markdown(COMMON_CSS, unsafe_allow_html=True)
 st.title("💬 Ocean voices")
 st.write("Science educators, professors, students and researchers: share your perspective on our monthly question.")
